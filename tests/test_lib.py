@@ -28,3 +28,12 @@ class TestWriteCSV(unittest.TestCase):
 
     def test_csv_field_names(self):
         assert self.reader.fieldnames == list(self.fieldnames)
+
+    def test_csv_data(self):
+        features = {}
+        for f in self.collection:
+            features.update({f['properties']['OBJECTID']: f['properties']})
+        for row in self.reader:
+            feature = features[int(row['OBJECTID'])]
+            for k, v in feature.items():
+                assert str(v) == row[k]
