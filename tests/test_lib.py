@@ -23,5 +23,8 @@ class TestWriteCSV(unittest.TestCase):
     def tearDownClass(self):
         self.csvfile.close()
 
-    def test_csv_fieldnames(self):
-      assert 1 == 2
+    def setup_method(self, method):
+        self.reader = csv.DictReader(open(self.csvfile.name))
+
+    def test_csv_field_names(self):
+        assert self.reader.fieldnames == list(self.fieldnames)
