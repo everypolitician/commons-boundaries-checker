@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+
+import argparse
+
+from commons_boundaries.lib import write_csv_from_shape
+from pathlib import Path
+
+parser = argparse.ArgumentParser(
+    description='Write Shapefile attributes to CSV')
+
+parser.add_argument('shp_path', metavar='SHAPEFILE-PATH')
+
+args = parser.parse_args()
+
+shp_path = Path(args.shp_path)
+csv_path = shp_path.parent / (shp_path.stem + '.csv')
+
+write_csv_from_shape(shp_path=str(shp_path), csv_path=str(csv_path))
