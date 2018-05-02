@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+
+import sys
+
+from subprocess import check_output, CalledProcessError
+
+shapefile = sys.argv[1]
+
+try:
+    print('calling get-report.r')
+    output = check_output(['./get-report.r', shapefile])
+    print(output.decode('utf-8'))
+except CalledProcessError as e:
+    print("R found an error in the shapefile:")
+    print(e.output.decode('utf-8'))
