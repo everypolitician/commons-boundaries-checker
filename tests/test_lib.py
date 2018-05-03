@@ -37,3 +37,6 @@ class TestWriteCSV(unittest.TestCase):
             feature = features[int(row['OBJECTID'])]
             for k, v in feature.items():
                 assert str(v) == row[k]
+
+    def test_no_extra_rows(self):
+        assert len(self.collection) == sum(1 for line in self.reader)
