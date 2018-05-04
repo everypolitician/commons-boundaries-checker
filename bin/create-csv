@@ -2,7 +2,7 @@
 
 import argparse
 
-from commons_boundaries.lib import write_csv_from_shape
+from commons_boundaries.lib import write_csv_from_shp
 from pathlib import Path
 
 parser = argparse.ArgumentParser(
@@ -15,4 +15,4 @@ args = parser.parse_args()
 shp_path = Path(args.shp_path)
 csv_path = shp_path.parent / (shp_path.stem + '.csv')
 
-write_csv_from_shape(shp_path=str(shp_path), csv_path=str(csv_path))
+write_csv_from_shp(shp_path=str(shp_path), csv_path=str(csv_path))
