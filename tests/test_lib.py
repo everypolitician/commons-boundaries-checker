@@ -1,6 +1,7 @@
 # testing whether csv is correctly written.
 
-from commons_boundaries.lib import write_csv_from_shp
+from commons_boundaries.lib import write_csv_from_shp, proj4_from_shp, encoding_from_shp
+from pathlib import Path
 
 import csv
 import os
@@ -46,3 +47,23 @@ class TestWriteCSV(unittest.TestCase):
             '3260854220.04',
         ]
         os.remove(csvfile.name)
+
+
+class TestCreateConfig(unittest.TestCase):
+
+    def setUp(self):
+        test_data = Path(__file__).parent / 'data'
+        self.shp_path = test_data / 'italy-source' / 'CAMERA_PLURI_2017.shp'
+        self.no_meta_shp_path = test_data / 'no_meta' / 'CAMERA_PLURI_2017.shp'
+
+    def test_get_proj4_from_shp(self):
+        assert proj4_from_shp(self.shp_path) == '+init=epsg:32632'
+
+    def test_get_proj4_from_shp_fails_without_prj(self):
+        assert proj4_from_shp(self.no_meta_shp_path) == ''
+
+    def test_encoding_from_shp(self):
+        assert encoding_from_shp(self.shp_path) == 'UTF-8'
+
+    def test_encoding_from_shp_fails_without_cpg(self):
+        assert encoding_from_shp(self.no_meta_shp_path) == ''
