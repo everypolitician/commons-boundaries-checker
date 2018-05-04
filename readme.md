@@ -24,10 +24,9 @@ There may be specific steps that are required prior to running these standard st
 ## Installation
 'commons-boundaries' is a collection of command line tools that come as a python package.
 Create a virtual env however you prefer, and then `pip install commons-boundaries`
-Commands are run at the command line form within the virtual env.
+Commands are run at the command line from within the virtual env.
 
-__development__
-
+### development
 If installing for development activate your virtualenv and run `pip install -e .[testing]` in the root directory.
 
 ## Usage
