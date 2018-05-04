@@ -10,7 +10,8 @@ setup(
     author_email='parliments@mysociety.org',
     license='MIT',
     packages=['commons_boundaries'],
-    scripts=['bin/create-csv'],
+    scripts=['bin/create-csv',
+             'bin/create-config'],
     install_requires=[
         'fiona'
     ],
