@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import json
 import sys
 
 from commons_boundaries.lib import proj4_from_shp, encoding_from_shp
@@ -14,13 +15,37 @@ parser.add_argument('source', metavar='SOURCE-SHAPEFILE-PATH')
 parser.add_argument('boundary', metavar='NAME-OF_BOUNDARY')
 
 args = parser.parse_args()
+boundary_path = Path('./boundaries/build') / Path(args.boundary)
+source_path = Path(args.source)
 
 boundary_path = Path('boundaries') / 'build' / args.boundary
 source_path = Path(args.source)
-config_path = Path('boundaries') / 'boundary-config'
+config_path = Path('boundaries') / 'boundary-config.json'
 
+# Create a folder
 try:
-    boundary_path = Path('./boundaries/build') / Path(args.boundary)
     boundary_path.mkdir()
 except FileExistsError as e:
     sys.exit('{} already exists. Please pick a new name'.format(args.boundary))
+
+# Get existing json entries
+try:
+    with open('boundaries/boundary-config.json', 'r') as f:
+        config_entries = json.load(f)
+except FileNotFoundError:
+    config_entries = []
+
+# Make a new entry
+src_proj4 = proj4_from_shp(str(source_path))
+src_encoding = encoding_from_shp(str(source_path))
+new_config = BoundaryConfig(shp_path=str(source_path),
+                            proj4=src_proj4,
+                            encoding=src_encoding,
+                            boundary=args.boundary)
+
+# Append it to existing entries
+config_entries.append(new_config.as_dict())
+
+# Write all entries back to file..
+with open(str(config_path), 'w') as json_file:
+    json.dump(config_entries, json_file)
