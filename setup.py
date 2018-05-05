@@ -1,3 +1,4 @@
+
 from setuptools import setup
 setup(
     name='commons_boundaries',
@@ -11,7 +12,8 @@ setup(
     license='MIT',
     packages=['commons_boundaries'],
     scripts=['bin/create-csv',
-             'bin/create-config'],
+             'bin/create-config',
+             'bin/create-boundary'],
     install_requires=[
         'fiona'
     ],
